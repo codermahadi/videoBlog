@@ -1933,4 +1933,8 @@ select.form-control {
 textarea.form-control {
   height: 140px; }
 
+.hide-text{
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */

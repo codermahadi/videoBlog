@@ -49,9 +49,12 @@
                                     <div class="post-meta d-flex">
                                         <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 25</a>
                                         <a href="#"><i class="fa fa-eye"
-                                                       aria-hidden="true"></i> <?php echo $result['like_count'] ?></a>
-                                        <a href="#"><i class="fa fa-thumbs-o-up"
                                                        aria-hidden="true"></i> <?php echo $result['view'] ?></a>
+                                            <div id="likeCountHide"
+                                               onclick="likeUpdate(<?php echo $result['id']; ?>, <?php echo $result['like_count']; ?>)"><i
+                                                        class="fa fa-thumbs-o-up"
+                                                        aria-hidden="true"></i> <?php echo $result['like_count'] ?></div>
+                                        <div id="likeCount"></div>
                                     </div>
                                 </div>
 
@@ -153,7 +156,8 @@
                     <div class="single-post-area mb-80">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <img src="cms/<?php echo $result['postal_img']; ?>" alt="cms/<?php echo $result['title']; ?>">
+                            <img src="cms/<?php echo $result['postal_img']; ?>"
+                                 alt="cms/<?php echo $result['title']; ?>">
 
                             <!-- Video Duration -->
                             <span class="video-duration">05.03</span>
@@ -165,8 +169,11 @@
                             <a href="single_post.php" class="post-title"><?php echo $result['short_desc']; ?></a>
                             <div class="post-meta d-flex">
                                 <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 22</a>
-                                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i><?php echo $result['view']; ?></a>
-                                <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> cms/<?php echo $result['like_count']; ?></a>
+                                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i><?php echo $result['view']; ?>
+                                </a>
+                                <a href="#" onclick="alert(<?php echo $result['like_count']; ?>)"><i
+                                            class="fa fa-thumbs-o-up"
+                                            aria-hidden="true"></i><?php echo $result['like_count']; ?></a>
                             </div>
                         </div>
                     </div>
@@ -954,6 +961,8 @@
 
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
+<script src="assets/js/jquery-1.11.3.min.js"></script>
+<script src="assets/js/jquery-2.1.4.min.js"></script>
 <script src="assets/js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
 <script src="assets/js/bootstrap/popper.min.js"></script>
@@ -963,6 +972,28 @@
 <script src="assets/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="assets/js/active.js"></script>
+
+
+<script>
+    function likeUpdate(id, value) {
+
+        value = value + 1;
+
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "api/likeUpdate.php",
+            data: "id=" + id + "&value=" + value,
+            success: function (data) {
+                console.log(data);
+                $('#likeCountHide').addClass("text-hide");
+                document.getElementById('likeCount').innerHTML = "<a href='#'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> " + data + "</a>";
+
+                // document.getElementById('likeCount').innerHTML = data;
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

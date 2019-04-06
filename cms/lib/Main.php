@@ -301,4 +301,32 @@ WHERE categories.id = " . $category . " ORDER BY categories.id LIMIT 1";
         return $results;
 
     }
+
+    private function getLikeValue($id)
+    {
+
+        $sql = "SELECT like_count FROM contents WHERE id = " . $id;
+        $query = $this->db->pdo->prepare($sql);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_OBJ);
+        return $result;
+
+    }
+
+    public function likeUpdate($id, $value)
+    {
+
+        $sql = "UPDATE contents SET like_count = :like_item WHERE id = " . $id;
+        $query = $this->db->pdo->prepare($sql);
+        $query->bindValue(':like_item', $value);
+
+
+        if ($query->execute() == 1) {
+            $res = $this->getLikeValue($id);
+            return $res->like_count;
+        } else {
+            return 0;
+        }
+
+    }
 }
